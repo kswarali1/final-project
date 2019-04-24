@@ -1,0 +1,58 @@
+---
+title: 'Final Project'
+author: "Swarali Korgaonkar & Akanksha Bhusari"
+date: "Due April 30, 2019"
+output: html_notebook
+---
+
+# Front matter
+
+```{r echo=TRUE, message=FALSE}
+# always clean up R environment
+rm(list = ls())
+# load all packages here
+library(data.table)
+library(dplyr)
+
+# user-defined functions here (if any)
+
+# load data
+```
+
+# Download datasets
+
+```{r}
+CollegeRankings <-
+  read.csv(file="/Users/Swarali/Desktop/STAT 380/final-project/FinalData/world-university-rankings/cwurData.csv", header=TRUE, sep=",")
+
+names(CollegeRankings)[names(CollegeRankings) == 'institution'] <- 'Name'
+
+CollegeRankings
+
+CollegeAdmissions <- 
+  read.csv(file="/Users/Swarali/Desktop/STAT 380/final-project/FinalData/Data-Table1.csv", header=TRUE, sep=",")
+
+#Subset data to only include columns needed
+CollegeAdmissions_tidy <- 
+  CollegeAdmissions %>%
+  select(1:4, 28, 42:44, 46, 53:63, 90:91)
+
+#Change column names
+setnames(CollegeAdmissions_tidy, 
+         old=c("Enrolled.total", "Percent.admitted...total", "Historically.Black.College.or.University", "Tribal.college", "Degree.of.urbanization..Urban.centric.locale.", "Total..enrollment", "Percent.of.total.enrollment.that.are.American.Indian.or.Alaska.Native", "Percent.of.total.enrollment.that.are.Asian", "Percent.of.total.enrollment.that.are.Black.or.African.American", "Percent.of.total.enrollment.that.are.Hispanic.Latino", "Percent.of.total.enrollment.that.are.Native.Hawaiian.or.Other.Pacific.Islander", "Percent.of.total.enrollment.that.are.White", "Percent.of.total.enrollment.that.are.two.or.more.races", "Percent.of.total.enrollment.that.are.Race.ethnicity.unknown", "Percent.of.total.enrollment.that.are.Nonresident.Alien", "Percent.of.total.enrollment.that.are.Asian.Native.Hawaiian.Pacific.Islander", "Percent.of.total.enrollment.that.are.women", "Number.of.first.time.undergraduates...foreign.countries", "Percent.of.first.time.undergraduates...foreign.countries"), 
+         new=c("TotalEnrollment", "AcceptanceRate", "HBCU", "TribalCollege", "AreaType.UCL", "Enrollment", "AmericanIndian/Alaska.Pct", "Asian.Pct", "Black.Pct", "HispanicLatino.Pct", "Hawaiian/PacificIslander.Pct", "White.Pct", "TwoMoreRace.Pct", "UnknownEthnicity.Pct", "NonResidentAlien.Pct", "AsianHawaiian/PacificIslander.Pct", "Women.Pct", "FirstUndergradForeign.Num", "FirstUndergradForeign.Pct")) 
+
+CollegeAdmissions_tidy
+```
+
+# Join datasets (Left Join)
+
+```{r}
+total_data<-
+  merge(x=CollegeRankings,y=CollegeAdmissions_tidy,by="Name",all.x=TRUE)
+total_data
+```
+
+# Data Wrangling
+
+
