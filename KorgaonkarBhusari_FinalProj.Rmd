@@ -13,13 +13,14 @@ rm(list = ls())
 # load all packages here
 library(data.table)
 library(dplyr)
+library(tidyr)
 
 # user-defined functions here (if any)
 
 # load data
 ```
 
-# Download datasets
+# Download datasets and Data Preprocessing 
 
 ```{r}
 CollegeRankings <-
@@ -40,19 +41,123 @@ CollegeAdmissions_tidy <-
 #Change column names
 setnames(CollegeAdmissions_tidy, 
          old=c("Enrolled.total", "Percent.admitted...total", "Historically.Black.College.or.University", "Tribal.college", "Degree.of.urbanization..Urban.centric.locale.", "Total..enrollment", "Percent.of.total.enrollment.that.are.American.Indian.or.Alaska.Native", "Percent.of.total.enrollment.that.are.Asian", "Percent.of.total.enrollment.that.are.Black.or.African.American", "Percent.of.total.enrollment.that.are.Hispanic.Latino", "Percent.of.total.enrollment.that.are.Native.Hawaiian.or.Other.Pacific.Islander", "Percent.of.total.enrollment.that.are.White", "Percent.of.total.enrollment.that.are.two.or.more.races", "Percent.of.total.enrollment.that.are.Race.ethnicity.unknown", "Percent.of.total.enrollment.that.are.Nonresident.Alien", "Percent.of.total.enrollment.that.are.Asian.Native.Hawaiian.Pacific.Islander", "Percent.of.total.enrollment.that.are.women", "Number.of.first.time.undergraduates...foreign.countries", "Percent.of.first.time.undergraduates...foreign.countries"), 
-         new=c("TotalEnrollment", "AcceptanceRate", "HBCU", "TribalCollege", "AreaType.UCL", "Enrollment", "AmericanIndian/Alaska.Pct", "Asian.Pct", "Black.Pct", "HispanicLatino.Pct", "Hawaiian/PacificIslander.Pct", "White.Pct", "TwoMoreRace.Pct", "UnknownEthnicity.Pct", "NonResidentAlien.Pct", "AsianHawaiian/PacificIslander.Pct", "Women.Pct", "FirstUndergradForeign.Num", "FirstUndergradForeign.Pct")) 
+         new=c("TotalEnrollment", "AcceptanceRate", "HBCU", "TribalCollege", "AreaType.UCL", "Enrollment", "AmericanIndianAlaska.Pct", "Asian.Pct", "Black.Pct", "HispanicLatino.Pct", "HawaiianPacificIslander.Pct", "White.Pct", "TwoMoreRace.Pct", "UnknownEthnicity.Pct", "NonResidentAlien.Pct", "AsianHawaiianPacificIslander.Pct", "Women.Pct", "FirstUndergradForeign.Num", "FirstUndergradForeign.Pct")) 
 
 CollegeAdmissions_tidy
 ```
 
 # Join datasets (Left Join)
 
+Joins (at least) two different data sources for analysis
+Report includes meaningful contributions from (at least) two different data sources that are JOINED for the analysis
+
 ```{r}
 total_data<-
   merge(x=CollegeRankings,y=CollegeAdmissions_tidy,by="Name",all.x=TRUE)
 total_data
 ```
+The reason to why there are multiple listings of the universities is because the data includes statistics from multiple years and the data per university changes yearly.
 
 # Data Wrangling
+
+Clear demonstration of proficiency should include proper use of 5 out of the following 6 topics from class: (+) general purpose data wrangling--e.g., filter, select mutate, summarise, arrange, group_by, etc. (+) spread & gather to stack/unstack variables (+) regular expressions (+) user-defined functions (+) loops and control flow (+) vectorized functions like the `apply` family, `purrr::map` or `dplyr::do`
+
+## filter, select, mutate, summarise, arrange, group_by, etc
+
+```{r}
+filter(total_data, AcceptanceRate < 20 & world_rank < 100)
+```
+Within this section of the code, we decided to filter the universities that had an acceptance rate of less than 20% and were within the top 100 ranked schools. 
+
+## spread & gather to stack/unstack variables
+
+```{r}
+
+```
+
+
+## regular expressions
+
+```{r}
+grep()
+```
+
+
+## user-defined functions
+
+```{r}
+race_diversity <-
+  filter(total_data, Asian.Pct > 20 | Black.Pct > 20 | HispanicLatino.Pct > 20 | TwoMoreRace.Pct > 20 | UnknownEthnicity.Pct > 20 | AmericanIndianAlaska.Pct > 20 | HawaiianPacificIslander.Pct > 20 | AsianHawaiianPacificIslander.Pct > 20)
+race_diversity
+
+gender_diversity <-
+  filter(total_data, Women.Pct > 50)
+gender_diversity
+  
+background_diversity <-
+  filter(total_data, NonResidentAlien.Pct > 10 & FirstUndergradForeign.Pct > 10)
+background_diversity
+```
+
+
+## loops and control flow
+
+```{r}
+
+```
+
+
+## vectorized functions like the `apply` family, `purrr::map` or `dplyr::do`
+
+```{r}
+
+```
+
+
+# Data Visualization
+
+Clear demonstration of proficiency should include at least FOUR distinct and useful data visualizations that are relevant to purpose of the analysis. Include at least one effective visualization with layered data from distinct data structures--e.g., a `geom` that plots data from a secondary data frame AND another must effectively display many--3 or more--variables. All plots must demonstrate good plotting practices.
+
+```{r}
+
+```
+
+# Data Analysis
+Clear demonstration of proficiency should include proper use of 3 out of the following 5 topics from class: (+) statistical modeling/supervised learning (+) unsupervised learning (+) user-defined simulations (+) analysis of text data (+) R tools for "big data"
+
+## statistical modeling/supervised learning
+
+```{r}
+
+```
+
+## unsupervised learning
+
+```{r}
+
+```
+
+
+## user-defined simulations
+
+```{r}
+
+```
+
+
+## analysis of text data
+
+```{r}
+
+```
+
+
+## R tools for "big data"
+
+```{r}
+
+```
+
+
 
 
