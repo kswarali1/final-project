@@ -23,15 +23,19 @@ library(tidyr)
 # Download datasets and Data Preprocessing 
 
 ```{r}
+# CollegeRankings <-
+#   read.csv(file="/Users/Swarali/Desktop/STAT 380/final-project/FinalData/world-university-rankings/cwurData.csv", header=TRUE, sep=",")
 CollegeRankings <-
-  read.csv(file="/Users/Swarali/Desktop/STAT 380/final-project/FinalData/world-university-rankings/cwurData.csv", header=TRUE, sep=",")
+  read.csv(file="C:/Users/Akanksha Bhusari/Documents/STAT380/final-project/cwurData.csv", header=TRUE, sep=",")
 
 names(CollegeRankings)[names(CollegeRankings) == 'institution'] <- 'Name'
 
 CollegeRankings
 
+# CollegeAdmissions <- 
+#   read.csv(file="/Users/Swarali/Desktop/STAT 380/final-project/FinalData/Data-Table1.csv", header=TRUE, sep=",")
 CollegeAdmissions <- 
-  read.csv(file="/Users/Swarali/Desktop/STAT 380/final-project/FinalData/Data-Table1.csv", header=TRUE, sep=",")
+  read.csv(file="C:/Users/Akanksha Bhusari/Documents/STAT380/final-project/Data-Table 1.csv", header=TRUE, sep=",")
 
 #Subset data to only include columns needed
 CollegeAdmissions_tidy <- 
@@ -65,7 +69,7 @@ Clear demonstration of proficiency should include proper use of 5 out of the fol
 ## filter, select, mutate, summarise, arrange, group_by, etc
 
 ```{r}
-filter(total_data, AcceptanceRate < 20 & world_rank < 100)
+filter(total_data, national_rank < 100)
 ```
 Within this section of the code, we decided to filter the universities that had an acceptance rate of less than 20% and were within the top 100 ranked schools. 
 
@@ -73,13 +77,14 @@ Within this section of the code, we decided to filter the universities that had 
 
 ```{r}
 
+
 ```
 
 
 ## regular expressions
 
 ```{r}
-grep()
+#grep()
 ```
 
 
