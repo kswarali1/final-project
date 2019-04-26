@@ -69,9 +69,13 @@ Clear demonstration of proficiency should include proper use of 5 out of the fol
 ## filter, select, mutate, summarise, arrange, group_by, etc
 
 ```{r}
+<<<<<<< HEAD
 filter(total_data, national_rank < 100)
+=======
+filter(total_data, nation_rank < 100)
+>>>>>>> dc83075ec369081a078aef153cb0c96f69dee250
 ```
-Within this section of the code, we decided to filter the universities that had an acceptance rate of less than 20% and were within the top 100 ranked schools. 
+Within this section of the code, we decided to filter the universities that were ranked within the top 100 nationally in order to later determine how much impact diversity plays in a school's success. 
 
 ## spread & gather to stack/unstack variables
 
