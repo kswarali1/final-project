@@ -69,11 +69,11 @@ Clear demonstration of proficiency should include proper use of 5 out of the fol
 ## filter, select, mutate, summarise, arrange, group_by, etc
 
 ```{r}
-<<<<<<< HEAD
-filter(total_data, national_rank < 100)
-=======
-filter(total_data, nation_rank < 100)
->>>>>>> dc83075ec369081a078aef153cb0c96f69dee250
+
+top_schools <-
+  filter(total_data, world_rank < 100)
+
+top_schools
 ```
 Within this section of the code, we decided to filter the universities that were ranked within the top 100 nationally in order to later determine how much impact diversity plays in a school's success. 
 
@@ -81,14 +81,37 @@ Within this section of the code, we decided to filter the universities that were
 
 ```{r}
 
+total_data <-
+  spread(total_data, year, national_rank, fill = NA)
 
+total_data
+```
+```{r}
+# rename columns
+
+names(total_data)[37]<-"yr2015" 
+names(total_data)[36]<-"yr2014" 
+names(total_data)[35]<-"yr2013" 
+names(total_data)[34]<-"yr2012" 
+
+total_data
+```
+
+```{r}
+
+AVG_data <-
+  total_data %>%
+    group_by(Name) %>%
+    summarize(world_rank=mean(world_rank), yr2012=sum(yr2012, na.rm = T), yr2013=sum(yr2013, na.rm = T), yr2014=sum(yr2014, na.rm = T), yr2015=sum(yr2015, na.rm = T), quality_of_education=mean(quality_of_education), alumni_employment=mean(alumni_employment), quality_of_faculty=mean(quality_of_faculty), publications=mean(publications), influence=mean(influence), citations=mean(citations), broad_impact=mean(broad_impact), patents=mean(patents), score=mean(score), Applicants.total=mean(Applicants.total), Admissions.total=mean(Admissions.total), TotalEnrollment=mean(TotalEnrollment), AcceptanceRate=mean(AcceptanceRate), TribalCollege=mean(TribalCollege), AreaType.UCL=mean(AreaType.UCL), Enrollment=mean(Enrollment), AmericanIndianAlaska.Pct=mean(AmericanIndianAlaska.Pct), Asian.Pct=mean(Asian.Pct), Black.Pct=mean(Black.Pct), HispanicLatino.Pct=mean(HispanicLatino.Pct), HawaiianPacificIslander.Pct=mean(HawaiianPacificIslander.Pct), White.Pct=mean(White.Pct), TwoMoreRace.Pct=mean(TwoMoreRace.Pct), UnknownEthnicity.Pct=mean(UnknownEthnicity.Pct), NonResidentAlien.Pct=mean(NonResidentAlien.Pct), AsianHawaiianPacificIslander.Pct=mean(AsianHawaiianPacificIslander.Pct), Women.Pct=mean(Women.Pct), FirstUndergradForeign.Num=mean(FirstUndergradForeign.Num), FirstUndergradForeign.Pct=mean(FirstUndergradForeign.Pct))
+
+AVG_data
 ```
 
 
 ## regular expressions
 
 ```{r}
-#grep()
+
 ```
 
 
