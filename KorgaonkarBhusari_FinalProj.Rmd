@@ -16,6 +16,25 @@ library(dplyr)
 library(tidyr)
 
 # user-defined functions here (if any)
+clean_data <-
+  function(data){
+    country <-
+      data %>%
+        select(1, 3)
+    country <-
+      unique(country)
+    
+    AVG_data <-
+      data %>%
+        group_by(Name) %>%
+        summarize(world_rank=mean(world_rank), yr2012=sum(yr2012, na.rm = T), yr2013=sum(yr2013, na.rm = T), yr2014=sum(yr2014, na.rm = T), yr2015=sum(yr2015, na.rm = T), quality_of_education=mean(quality_of_education), alumni_employment=mean(alumni_employment), quality_of_faculty=mean(quality_of_faculty), publications=mean(publications), influence=mean(influence), citations=mean(citations), broad_impact=mean(broad_impact), patents=mean(patents), score=mean(score), Applicants.total=mean(Applicants.total), Admissions.total=mean(Admissions.total), TotalEnrollment=mean(TotalEnrollment), AcceptanceRate=mean(AcceptanceRate), TribalCollege=mean(TribalCollege), AreaType.UCL=mean(AreaType.UCL), Enrollment=mean(Enrollment), AmericanIndianAlaska.Pct=mean(AmericanIndianAlaska.Pct), Asian.Pct=mean(Asian.Pct), Black.Pct=mean(Black.Pct), HispanicLatino.Pct=mean(HispanicLatino.Pct), HawaiianPacificIslander.Pct=mean(HawaiianPacificIslander.Pct), White.Pct=mean(White.Pct), TwoMoreRace.Pct=mean(TwoMoreRace.Pct), UnknownEthnicity.Pct=mean(UnknownEthnicity.Pct), NonResidentAlien.Pct=mean(NonResidentAlien.Pct), AsianHawaiianPacificIslander.Pct=mean(AsianHawaiianPacificIslander.Pct), Women.Pct=mean(Women.Pct), FirstUndergradForeign.Num=mean(FirstUndergradForeign.Num), FirstUndergradForeign.Pct=mean(FirstUndergradForeign.Pct))
+    
+    TOTALdata <-
+      merge(x = AVG_data, y = country, by = "Name", all = TRUE)
+    
+    return(TOTALdata)
+  }
+
 
 # load data
 ```
@@ -69,7 +88,6 @@ Clear demonstration of proficiency should include proper use of 5 out of the fol
 ## filter, select, mutate, summarise, arrange, group_by, etc
 
 ```{r}
-
 top_schools <-
   filter(total_data, world_rank < 100)
 
@@ -80,55 +98,30 @@ Within this section of the code, we decided to filter the universities that were
 ## spread & gather to stack/unstack variables
 
 ```{r}
-
 total_data <-
   spread(total_data, year, national_rank, fill = NA)
 
 total_data
 ```
 ```{r}
-# rename columns
-
-names(total_data)[37]<-"yr2015" 
-names(total_data)[36]<-"yr2014" 
-names(total_data)[35]<-"yr2013" 
-names(total_data)[34]<-"yr2012" 
+# rename columns 
+names(total_data)[37]<-"yr2015"
+names(total_data)[36]<-"yr2014"
+names(total_data)[35]<-"yr2013"
+names(total_data)[34]<-"yr2012"
 
 total_data
 ```
 
-```{r}
-
-AVG_data <-
-  total_data %>%
-    group_by(Name) %>%
-    summarize(world_rank=mean(world_rank), yr2012=sum(yr2012, na.rm = T), yr2013=sum(yr2013, na.rm = T), yr2014=sum(yr2014, na.rm = T), yr2015=sum(yr2015, na.rm = T), quality_of_education=mean(quality_of_education), alumni_employment=mean(alumni_employment), quality_of_faculty=mean(quality_of_faculty), publications=mean(publications), influence=mean(influence), citations=mean(citations), broad_impact=mean(broad_impact), patents=mean(patents), score=mean(score), Applicants.total=mean(Applicants.total), Admissions.total=mean(Admissions.total), TotalEnrollment=mean(TotalEnrollment), AcceptanceRate=mean(AcceptanceRate), TribalCollege=mean(TribalCollege), AreaType.UCL=mean(AreaType.UCL), Enrollment=mean(Enrollment), AmericanIndianAlaska.Pct=mean(AmericanIndianAlaska.Pct), Asian.Pct=mean(Asian.Pct), Black.Pct=mean(Black.Pct), HispanicLatino.Pct=mean(HispanicLatino.Pct), HawaiianPacificIslander.Pct=mean(HawaiianPacificIslander.Pct), White.Pct=mean(White.Pct), TwoMoreRace.Pct=mean(TwoMoreRace.Pct), UnknownEthnicity.Pct=mean(UnknownEthnicity.Pct), NonResidentAlien.Pct=mean(NonResidentAlien.Pct), AsianHawaiianPacificIslander.Pct=mean(AsianHawaiianPacificIslander.Pct), Women.Pct=mean(Women.Pct), FirstUndergradForeign.Num=mean(FirstUndergradForeign.Num), FirstUndergradForeign.Pct=mean(FirstUndergradForeign.Pct))
-
-AVG_data
-```
-
-
 ## regular expressions
 
-```{r}
-
-```
 
 
 ## user-defined functions
 
 ```{r}
-race_diversity <-
-  filter(total_data, Asian.Pct > 20 | Black.Pct > 20 | HispanicLatino.Pct > 20 | TwoMoreRace.Pct > 20 | UnknownEthnicity.Pct > 20 | AmericanIndianAlaska.Pct > 20 | HawaiianPacificIslander.Pct > 20 | AsianHawaiianPacificIslander.Pct > 20)
-race_diversity
 
-gender_diversity <-
-  filter(total_data, Women.Pct > 50)
-gender_diversity
-  
-background_diversity <-
-  filter(total_data, NonResidentAlien.Pct > 10 & FirstUndergradForeign.Pct > 10)
-background_diversity
+clean_data(total_data)
 ```
 
 
