@@ -1,10 +1,14 @@
-## Welcome to GitHub Pages
+## Prediciting Trends Between Race and Highly Ranked Universities within the United States
 
-You can use the [editor on GitHub](https://github.com/kswarali1/final-project/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+In order to complete this project we used data from two sources. The first source included [College Admissions](https://www.kaggle.com/samsonqian/college-admissions) data. The second dataset consisted of data from [World University Rankings](https://www.kaggle.com/mylesoneill/world-university-rankings) also from kaggle's website. Within this project, we will be discussing the impact race has on a university being highly rated. Below includes the steps/process our group went through in order to draw our conclusions.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+### JOIN both datasets
 
-### Markdown
+### Data Wrangling
+
+### Data Visualization
+
+### Data Analysis
 
 Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
 
@@ -25,13 +29,3 @@ Syntax highlighted code block
 
 [Link](url) and ![Image](src)
 ```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/kswarali1/final-project/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
