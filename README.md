@@ -6,13 +6,13 @@ In order to complete this project we used data from two sources. The first sourc
 We chose to _left join_ our data based **College Name** because it was an overalaping column that both datasets included.
 
 ### Data Wrangling
-Some of the data wrangling methods that we included in our project includes:
+Some of the data wrangling methods that we included in our project include:
 - `select`
 - `summarise`
 - `filter`
 - `group_by`
 - `spread`
-- loops
+- `loop`
 - vectorized functions like the `apply` family
 
 ### Data Visualization
