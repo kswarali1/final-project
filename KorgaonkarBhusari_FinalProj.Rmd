@@ -14,6 +14,11 @@ rm(list = ls())
 library(data.table)
 library(dplyr)
 library(tidyr)
+library(ggplot2)
+library(caret)
+
+require(rpart)
+require(partykit)
 
 # user-defined functions here (if any)
 clean_data <-
@@ -33,6 +38,7 @@ clean_data <-
       merge(x = AVG_data, y = country, by = "Name", all = TRUE)
     
     return(TOTALdata)
+    
   }
 
 
@@ -87,12 +93,6 @@ Clear demonstration of proficiency should include proper use of 5 out of the fol
 
 ## filter, select, mutate, summarise, arrange, group_by, etc
 
-```{r}
-top_schools <-
-  filter(total_data, world_rank < 100)
-
-top_schools
-```
 Within this section of the code, we decided to filter the universities that were ranked within the top 100 nationally in order to later determine how much impact diversity plays in a school's success. 
 
 ## spread & gather to stack/unstack variables
@@ -105,10 +105,14 @@ total_data
 ```
 ```{r}
 # rename columns 
-names(total_data)[37]<-"yr2015"
-names(total_data)[36]<-"yr2014"
-names(total_data)[35]<-"yr2013"
-names(total_data)[34]<-"yr2012"
+names(total_data)[37]<-
+  "yr2015"
+names(total_data)[36]<-
+  "yr2014"
+names(total_data)[35]<-
+  "yr2013"
+names(total_data)[34]<-
+  "yr2012"
 
 total_data
 ```
@@ -121,31 +125,83 @@ total_data
 
 ```{r}
 
-clean_data(total_data)
+FINALdata <-
+  clean_data(total_data)
+FINALdata
 ```
 
 
 ## loops and control flow
+```{r}
+top_schools <-
+  filter(FINALdata, world_rank < 100)
+
+top_schools
+```
 
 ```{r}
+countries <-
+  top_schools %>%
+    select(36)
+countries <-
+  unique(countries)
+
+countries
 
 ```
+
+```{r}
+countriesList <-
+  c(countries[1])
+countriesList
+```
+
+```{r}
+countries
+```
+
 
 
 ## vectorized functions like the `apply` family, `purrr::map` or `dplyr::do`
 
-```{r}
-
-```
-
-
-# Data Visualization
-
-Clear demonstration of proficiency should include at least FOUR distinct and useful data visualizations that are relevant to purpose of the analysis. Include at least one effective visualization with layered data from distinct data structures--e.g., a `geom` that plots data from a secondary data frame AND another must effectively display many--3 or more--variables. All plots must demonstrate good plotting practices.
 
 ```{r}
 
+variables <-
+  top_schools %>%
+    select(2, 7, 9, 10, 11, 14)
+
+for (x in variables){
+  V <-
+    tapply(x, top_schools$country, FUN=mean)
+
+  V <-
+    as.data.frame(V)
+
+  V <-
+    cbind(country = rownames(V), V)
+
+  countries <-
+    merge(x = countries, y = V, by = "country", all.x = TRUE)
+  
+}
+
+names(countries)[2]<-
+  "AvgWorldRank"
+names(countries)[3]<-
+  "AvgQEdu"
+names(countries)[4]<-
+  "AvgQFaculty"
+names(countries)[5]<-
+  "AvgPublications"
+names(countries)[6]<-
+  "AvgInfluence"
+names(countries)[7]<-
+  "AvgPatents"
+
+countries
 ```
+
 
 # Data Analysis
 Clear demonstration of proficiency should include proper use of 3 out of the following 5 topics from class: (+) statistical modeling/supervised learning (+) unsupervised learning (+) user-defined simulations (+) analysis of text data (+) R tools for "big data"
@@ -153,12 +209,74 @@ Clear demonstration of proficiency should include proper use of 3 out of the fol
 ## statistical modeling/supervised learning
 
 ```{r}
+pairs(countries)
+countries
+```
+
+```{r}
+
+mod_tree <- 
+  rpart(country ~ AvgQEdu + AvgQFaculty + AvgPublications + AvgInfluence + AvgPatents, data = countries)
+
+tree_plot <-
+  plot(as.party(mod_tree))
+
+tree_plot
+
+```
+
+```{r}
+
+printcp(mod_tree)
+plotcp(mod_tree)
 
 ```
 
 ## unsupervised learning
+```{r}
+result <- 
+  countries[-1]
+row.names(result) <- 
+  countries$country
+result
+```
 
 ```{r}
+#countries$country = as.numeric(as.factor(countries$country))
+
+countries_pca <- result %>%
+  prcomp(scale = TRUE)  
+
+
+(-1) * countries_pca$rotation[, 1:2] %>% 
+  round(2)
+
+```
+```{r}
+countries_pca$x %>%
+  as.data.frame() %>%  # `ggplot2` expects a data frame object
+  ggplot(aes(x = PC1, y = PC2)) + 
+  geom_point(aes(color = countries$country), size = 3) + 
+  xlab("Best Vector from PCA") + 
+  ylab("Second Best Vector from PCA") + 
+  ggtitle("Two-dimensional representation of Average Country Education values (colored by country)") 
+```
+
+```{r}
+countries_std <-
+  scale(result) %>%
+  as.data.frame()
+
+countries_dist <- 
+  dist(countries_std)
+
+countries_dendo <-
+  countries_dist %>%
+    hclust(method = "complete")
+
+countries_dendo %>%
+  plot(cex = 0.9, labels = countries$country, lwd = 2,
+       main = "Countries Dendogram with Complete Linkage")
 
 ```
 
@@ -182,6 +300,43 @@ Clear demonstration of proficiency should include proper use of 3 out of the fol
 ```{r}
 
 ```
+
+
+# Data Visualization
+
+Clear demonstration of proficiency should include at least FOUR distinct and useful data visualizations that are relevant to purpose of the analysis. Include at least one effective visualization with layered data from distinct data structures--e.g., a `geom` that plots data from a secondary data frame AND another must effectively display many--3 or more--variables. All plots must demonstrate good plotting practices.
+
+```{r}
+top_schools %>%
+  ggplot(aes(x = quality_of_faculty, y = quality_of_education)) + 
+  geom_point(aes(color = country), size = 3) + 
+  xlab("Quality of Faculty") + 
+  ylab("Quality of Education") + 
+  ggtitle("How Quality of Faculty Affects Quality of Edu by Country for the world's Top 100 Universities")
+
+reg <- 
+  lm(quality_of_education~quality_of_faculty,data=top_schools) 
+with(top_schools,plot(quality_of_faculty, quality_of_education))
+	abline(reg)
+```
+
+```{r}
+top_USA_schools <-
+  filter(top_schools, country == "USA")
+top_USA_schools
+
+```
+
+
+
+
+
+
+
+
+
+
+
 
 
 
