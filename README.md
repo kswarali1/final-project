@@ -1,6 +1,6 @@
-## Prediciting Trends Between Race and Highly Ranked Universities within the United States
+## Determining factors that lead universities to advance
 
-In order to complete this project we used data from two sources. The first source included [College Admissions](https://www.kaggle.com/samsonqian/college-admissions) data. The second dataset consisted of data from [World University Rankings](https://www.kaggle.com/mylesoneill/world-university-rankings) also from kaggle's website. Within this project, we will be discussing the impact race has on a university being highly rated. Below includes the steps/process our group went through in order to draw our conclusions.
+In order to complete this project we used data from two sources. The first source included [College Admissions](https://www.kaggle.com/samsonqian/college-admissions) data. The second dataset consisted of data from [World University Rankings](https://www.kaggle.com/mylesoneill/world-university-rankings) also from kaggle's website. Below includes the steps/process our group went through in order to draw our conclusions.
 
 
 ---
