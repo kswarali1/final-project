@@ -1,4 +1,4 @@
-## Determining factors that lead universities to advance
+## Determining factors that result in the vast differences in education globally
 
 In order to complete this project we used data from two sources. The first source included [College Admissions](https://www.kaggle.com/samsonqian/college-admissions) data. The second dataset consisted of data from [World University Rankings](https://www.kaggle.com/mylesoneill/world-university-rankings) also from kaggle's website. Below includes the steps/process our group went through in order to draw our conclusions.
 
